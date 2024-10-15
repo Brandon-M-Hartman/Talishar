@@ -29,3 +29,4 @@ RogueLike/Games
 /APIKeys/APIKeys.php
 BugReports/CreateGameFailsafe.txt
 .idea
+venv
