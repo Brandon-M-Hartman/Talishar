@@ -1619,15 +1619,14 @@ function ProcessTrigger($player, $parameter, $uniqueID, $target = "-", $addition
       GiveAttackGoAgain();
       DestroyAuraUniqueID($player, $uniqueID);
       break;
-    case "ELE111":
-      DestroyAuraUniqueID($player, $uniqueID);
-      if ($additionalCosts == "EQUIP") {
-        $index = SearchCharacterForUniqueID($uniqueID, $player);
-        RemoveCharacter($player, $index);
-      }
-      else DestroyAuraUniqueID($player, $uniqueID);
-      break;
-
+      case "ELE111":
+        DestroyAuraUniqueID($player, $uniqueID);
+        if ($additionalCosts == "EQUIP") {
+          $index = SearchCharacterForUniqueID($uniqueID, $player);
+          RemoveCharacter($player, $index);
+        }
+        else DestroyAuraUniqueID($player, $uniqueID);
+        break;
     case "ELE174":
       $index = FindCharacterIndex($player, $parameter);
       AddDecisionQueue("YESNO", $player, "destroy_".Cardlink($parameter, $parameter)."_to_have_the_attack_deal_1_damage");
@@ -2533,6 +2532,11 @@ function ProcessTrigger($player, $parameter, $uniqueID, $target = "-", $addition
       WriteLog(CardLink($parameter, $parameter) . " draws a card");
       Draw($player);
       break;
+    case "ROS079":
+    case "ROS080":
+    case "ROS081":
+      MZChooseAndBounce($mainPlayer, "THEIRAURAS:minCost=0;maxCost=1&THEIRAURAS:type=T&MYAURAS:minCost=0;maxCost=1&MYAURAS:type=T", may: true, context: "Choose an aura to return to its controller's hand");
+      break;
     case "ROS114":
       PummelHit($otherPlayer);
       Draw($player);
@@ -2602,24 +2606,12 @@ function ProcessTrigger($player, $parameter, $uniqueID, $target = "-", $addition
       AddDecisionQueue("CHOOSEMULTIZONE", $player, "<-", 1);
       AddDecisionQueue("BRUTUS", $player, $target, 1);
       break;
-    case "AJV001": // Jarl's "played an Ice card" ability
-      AddDecisionQueue("DECKCARDS", $otherPlayer, "0", 1);
-      AddDecisionQueue("SETDQVAR", $player, "0", 1);
-      AddDecisionQueue("SETDQCONTEXT", $player, "Choose if you want to sink <0>", 1);
-      AddDecisionQueue("YESNO", $player, "if_you_want_to_sink_the_opponent's_card", 1);
-      AddDecisionQueue("NOPASS", $player, $parameter, 1);
-      AddDecisionQueue("WRITELOG", $player, "<b>Arakni</b> sunk the top card", 1);
-      AddDecisionQueue("FINDINDICES", $otherPlayer, "TOPDECK", 1);
-      AddDecisionQueue("MULTIREMOVEDECK", $otherPlayer, "<-", 1);
-      AddDecisionQueue("ADDBOTDECK", $otherPlayer, "-", 1);
-      AddDecisionQueue("ELSE", $player, "-");
-      AddDecisionQueue("WRITELOG", $player, "<b>Arakni</b> left the top card there", 1);
     case "AJV001":
       AddDecisionQueue("LISTEXPOSEDEQUIPSLOTS", $otherPlayer, "-");
-      AddDecisionQueue("SETDQCONTEXT", $player, "Choose an exposed equipment zone in which to create a Frostbite", 1);
+      AddDecisionQueue("SETDQCONTEXT", $player, "Choose an exposed equipment zone to frostbite", 1);
       AddDecisionQueue("BUTTONINPUT", $player, "<-", 1);
       AddDecisionQueue("FROSTEXPOSED", $otherPlayer, "<-", 1);
-      break;      
+      break;
     default:
       break;
   }

@@ -1337,10 +1337,10 @@ function MainCharacterPlayCardAbilities($cardID, $from)
         }
         break;
       case "AJV001":
-        if (TalentContains($cardID, "ICE", $currentPlayer) && !IsStaticType(CardType($cardID), $from, $cardID)) {
+        if (TalentContains($cardID, "ICE", $currentPlayer)) {
           AddLayer("TRIGGER", $currentPlayer, $characterID);
         }
-        break;                
+        break;
       case "ROGUE017":
         if (CardType($cardID) == "AA") {
           $deck = &GetDeck($currentPlayer);
