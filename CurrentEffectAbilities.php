@@ -427,6 +427,7 @@ function EffectAttackModifier($cardID)
   else if ($set == "TER") return TEREffectAttackModifier($cardID);
   else if ($set == "AUR") return AUREffectAttackModifier($cardID);
   else if ($set == "ROS") return ROSEffectAttackModifier($cardID);
+  else if ($set == "AJV") return AJVEffectAttackModifier($cardID);
   switch ($cardID) {
     case "HER123":
       return 1;
@@ -1634,7 +1635,7 @@ function CurrentEffectEndTurnAbilities()
           $remove = true;
         }
         break;
-      case "EVO013": case "ROS246":
+      case "EVO013": case "ROS246": case: "ELE111":
         AddNextTurnEffect($currentTurnEffects[$i], $currentTurnEffects[$i + 1]);
         break;
       default:

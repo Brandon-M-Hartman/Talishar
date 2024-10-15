@@ -1405,6 +1405,12 @@ function SubtypeContains($cardID, $subtype, $player = "", $uniqueID = "")
       if ($effect[0] == "ROS246-" . $uniqueID) return DelimStringContains($currentTurnEffects[$i], $subtype, true);
     }
   }
+  if ($cardID == "ELE111") {
+    for ($i = 0; $i < count($currentTurnEffects); $i += CurrentTurnEffectsPieces()) {
+      $effect = explode(",", $currentTurnEffects[$i]);
+      if ($effect[0] == "ELE111-" . $uniqueID) return DelimStringContains($currentTurnEffects[$i], $subtype, true);
+    }
+  }  
   return DelimStringContains($cardSubtype, $subtype);
 }
 
@@ -2630,6 +2636,7 @@ function PlayAbility($cardID, $from, $resourcesPaid, $target = "-", $additionalC
   else if ($set == "TER") return TERPlayAbility($cardID, $from, $resourcesPaid, $target, $additionalCosts);
   else if ($set == "AUR") return AURPlayAbility($cardID, $from, $resourcesPaid, $target, $additionalCosts);
   else if ($set == "AIO") return AIOPlayAbility($cardID, $from, $resourcesPaid, $target, $additionalCosts);
+  else if ($set == "AJV") return AJVPlayAbility($cardID, $from, $resourcesPaid, $target, $additionalCosts);
   else {
     switch ($cardID) {
       case "LGS176":

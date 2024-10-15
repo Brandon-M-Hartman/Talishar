@@ -24,7 +24,7 @@
         $otherPlayer = ($currentPlayer == 1 ? 2 : 1);
         $numFrostBite = GetClassState($currentPlayer, $CS_LastDynCost)/2;
         PlayAura("ELE111", $otherPlayer, $numFrostBite, effectController: $currentPlayer);
-        $amountArcane = SearchCount(SearchAurasForCard("ELE111", $otherPlayer));
+        $amountArcane = SearchCount(SearchAurasForCard("ELE111", $otherPlayer)); //TODO - Search equipment too. Probably add the search into SearchAuras.
         if(DelimStringContains($additionalCosts, "ICE")) DealArcane($amountArcane, 0, "PLAYCARD", $cardID, false, $currentPlayer, resolvedTarget: $target);
         return "";
       case "UPR110": case "UPR111": case "UPR112":

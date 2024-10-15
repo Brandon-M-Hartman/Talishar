@@ -269,8 +269,10 @@
 
   function ThawIndices($player) {
     $iceAfflictions = SearchMultiZoneFormat(SearchAura($player, "", "Affliction", -1, -1, "", "ICE"), "MYAURAS");
-    $frostBites = SearchMultiZoneFormat(SearchAurasForCard("ELE111", $player), "MYAURAS");
-    $search = CombineSearches($iceAfflictions, $frostBites);
+    $frostBitesRegular = SearchMultiZoneFormat(SearchAurasForCard("ELE111", $player), "MYAURAS");
+    $search = CombineSearches($iceAfflictions, $frostBitesRegular);
+    $frostBitesEq = SearchMultiZoneFormat(SearchAurasForCard("ELE111", $player), "MYCHAR");
+    $search = CombineSearches($search, $frostBitesEq);
     $myFrozenArsenal = SearchMultiZoneFormat(SearchArsenal($player, frozenOnly:true), "MYARS");
     $search = CombineSearches($search, $myFrozenArsenal);
     $myFrozenAllies = SearchMultiZoneFormat(SearchAllies($player, frozenOnly:true), "MYALLY");

@@ -728,6 +728,8 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     $type = CardType($theirAuras[$i]);
     $sType = CardSubType($theirAuras[$i]);
     $gem = $theirAuras[$i + 8] != 2 ? $theirAuras[$i + 8] : NULL;
+    $location = $myAuras[$i + 10];
+
     array_push($theirAurasOutput, 
       JSONRenderedCard(cardNumber: $theirAuras[$i],
       actionDataOverride: strval($i),
@@ -738,7 +740,8 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       type: $type,
       sType: $sType,
       gem: $gem,
-      label: (!TypeContains($theirAuras[$i], "T") && $theirAuras[$i + 4] == 1 ? "Token Copy" : "")));
+      label: (!TypeContains($theirAuras[$i], "T") && $theirAuras[$i + 4] == 1 ? "Token Copy" : ""))),
+      location: $location;
   }
   $response->opponentAuras = $theirAurasOutput;
 
@@ -818,6 +821,8 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
     $type = CardType($myAuras[$i]);
     $sType = CardSubType($myAuras[$i]);
     $gem = $myAuras[$i + 7] != 2 ? $myAuras[$i + 7] : NULL;
+    $location = $myAuras[$i + 10];
+
     if (isset($auraTileMap[$myAuras[$i]])) $gem = $auraTileMap[$myAuras[$i]];
     else $auraTileMap[$myAuras[$i]] = $gem;
     array_push($myAurasOutput, JSONRenderedCard(
@@ -832,7 +837,8 @@ if ($lastUpdate != 0 && $cacheVal <= $lastUpdate) {
       actionDataOverride: strval($i),
       sType: $sType,
       gem: $gem,
-      label: !TypeContains($myAuras[$i], "T") && $myAuras[$i + 4] == 1 ? "Token Copy" : ""
+      label: !TypeContains($myAuras[$i], "T") && $myAuras[$i + 4] == 1 ? "Token Copy" : "",
+      location: $location;
     ));
   }
   $response->playerAuras = $myAurasOutput;

@@ -697,6 +697,10 @@ function CharacterCostModifier($cardID, $from, $cost)
       case "MST026":
         if (CardNameContains($cardID, "Spectral Shield", $currentPlayer) && GetClassState($currentPlayer, $CS_NumSpectralShieldAttacks) == 0) --$modifier;
         break;
+      case "ELE111": //Jarl's frostbites
+        $modifier += 1;
+        AddLayer("TRIGGER", $currentPlayer, "ELE111", "-", "EQUIP", $char[$i + 11]);
+        break;
       default:
         break;
     }
@@ -736,22 +740,23 @@ function EquipEquipment($player, $card, $slot = "")
   }
   if (!$replaced) {
     $insertIndex = count($char);
-    array_splice($char, $insertIndex, 0, $card);
-    array_splice($char, $insertIndex + 1, 0, 2);
-    array_splice($char, $insertIndex + 2, 0, 0);
-    array_splice($char, $insertIndex + 3, 0, 0);
-    array_splice($char, $insertIndex + 4, 0, 0);
-    array_splice($char, $insertIndex + 5, 0, 1);
-    array_splice($char, $insertIndex + 6, 0, 0);
-    array_splice($char, $insertIndex + 7, 0, 0);
-    array_splice($char, $insertIndex + 8, 0, 0);
-    array_splice($char, $insertIndex + 9, 0, 2);
-    array_splice($char, $insertIndex + 10, 0, "-");
+    array_splice($char, $insertIndex, 0, $card); // Card ID
+    array_splice($char, $insertIndex + 1, 0, 2); // Status to Ready
+    array_splice($char, $insertIndex + 2, 0, 0); // 0 Counters
+    array_splice($char, $insertIndex + 3, 0, 0); // 0 Atk counters
+    array_splice($char, $insertIndex + 4, 0, 0); // 0 Def counters
+    array_splice($char, $insertIndex + 5, 0, 1); // 1 Use
+    array_splice($char, $insertIndex + 6, 0, 0); // Not on chain
+    array_splice($char, $insertIndex + 7, 0, 0); // Not flagged for destruction
+    array_splice($char, $insertIndex + 8, 0, 0); // Not frozen
+    array_splice($char, $insertIndex + 9, 0, 2); // Is always active
+    array_splice($char, $insertIndex + 10, 0, "-"); // No subcard
     array_splice($char, $insertIndex + 11, 0, $uniqueID);
     array_splice($char, $insertIndex + 12, 0, HasCloaked($card, $player));
   }
   if ($card == "EVO013") AddCurrentTurnEffect("EVO013-" . $uniqueID . "," . $slot, $player);
   if ($card == "ROS246") AddCurrentTurnEffect("ROS246-" . $uniqueID . ",Base," . $slot, $player);
+  if ($card == "ELE111") AddCurrentTurnEffect("ELE111-" . $uniqueID . "," . $slot, $player);
 }
 
 function EquipWeapon($player, $card)
@@ -1331,6 +1336,11 @@ function MainCharacterPlayCardAbilities($cardID, $from)
           --$character[$i + 5];
         }
         break;
+      case "AJV001":
+        if (TalentContains($cardID, "ICE", $currentPlayer) && !IsStaticType(CardType($cardID), $from, $cardID)) {
+          AddLayer("TRIGGER", $currentPlayer, $characterID);
+        }
+        break;                
       case "ROGUE017":
         if (CardType($cardID) == "AA") {
           $deck = &GetDeck($currentPlayer);

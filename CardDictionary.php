@@ -41,6 +41,7 @@ include "CardDictionaries/PartTheMistveil/MSTShared.php";
 include "CardDictionaries/ArmoryDecks/AAZShared.php";
 include "CardDictionaries/Rosetta/ROSShared.php";
 include "CardDictionaries/ArmoryDecks/AIOShared.php";
+include "CardDictionaries/ArmoryDecks/AJVShared.php";
 
 include "GeneratedCode/GeneratedCardDictionaries.php";
 include "GeneratedCode/DatabaseGeneratedCardDictionaries.php";
@@ -127,11 +128,11 @@ function CardSubType($cardID, $uniqueID = -1)
     default:
       break;
   }
-  if ($uniqueID > -1 && IsModular($cardID)) {
+  if ($uniqueID > -1 && (IsModular($cardID) || $cardID == "ELE111")) {
     global $currentTurnEffects;
     for ($i = 0; $i < count($currentTurnEffects); $i += CurrentTurnEffectsPieces()) {
       $effectArr = explode("-", $currentTurnEffects[$i]);
-      if ($effectArr[0] != "EVO013" && $effectArr[0] != "ROS246") continue;
+      if ($effectArr[0] != "EVO013" && $effectArr[0] != "ROS246" && effectArr[0] != "ELE111") continue;
       $effectArr = explode(",", $effectArr[1]);
       if ($effectArr[0] != $uniqueID) continue;
       if($effectArr[1] == "Base") return $effectArr[2];
@@ -855,6 +856,7 @@ function GetAbilityType($cardID, $index = -1, $from = "-")
   else if ($set == "ASB") return ASBAbilityType($cardID, $index);
   else if ($set == "TER") return TERAbilityType($cardID);
   else if ($set == "AIO") return AIOAbilityType($cardID, $index, $from);
+  else if ($set == "AJV") return AJVAbilityType($cardID, $index, $from);
   else if ($cardID == "HER117") return "I";
 }
 

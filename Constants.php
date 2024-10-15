@@ -77,9 +77,10 @@ function CombatChainPieces()
 //7 - My Hold priority for triggers (2 = always hold, 1 = hold, 0 = don't hold)
 //8 - Opponent Hold priority for triggers (2 = always hold, 1 = hold, 0 = don't hold)
 //9 - Where it's played from
+//10 - Where it's located (relevant as Jarl puts Frostbite auras in equipment slots)
 function AuraPieces()
 {
-  return 10;
+  return 11;
 }
 
 //0 - Item ID

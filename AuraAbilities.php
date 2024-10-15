@@ -226,6 +226,15 @@ function AuraLeavesPlay($player, $index, $uniqueID)
       AddDecisionQueue("DISCARDCARD", $player, "HAND-" . $player, 1);
       AddDecisionQueue("DRAW", $player, "-", 0);
       break;
+    case "ELE111": //TODO - Fix equipment when Jarl's frostbite leaves EQ zone
+      $index = SearchAurasForUniqueID($uniqueID, $player); // When a Frostbite leaves, check if it was in an equipment slot.
+      if ($index == -1) break; // Not in an eq slot, nothing to do.
+      $auras = &GetAuras($player);
+      $slot = $auras[$index + 10];
+      if ($slot == "Legs") {
+        // Refresh the legs
+      }
+      break;      
     default:
       break;
   }
